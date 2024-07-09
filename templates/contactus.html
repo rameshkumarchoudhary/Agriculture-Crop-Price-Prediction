@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Welcome to Crop Price Prediction</title>
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+		<style>
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+			}
+
+			input[type=text],
+			select,
+			textarea {
+				width: 100%;
+				padding: 12px;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				box-sizing: border-box;
+				margin-top: 6px;
+				margin-bottom: 16px;
+				resize: vertical;
+			}
+
+			.jumbotron h1 {
+				font-size: 3.5rem;
+			}
+			.info-section {
+				padding: 60px 0;
+			}
+			div#about {
+				background-color: lightgreen;
+			}
+			div#contact {
+				background-color: lightgreen;
+			}
+			nav.navbar {
+				background-color: #fff;
+				text-shadow: 0 0 black;
+			}
+			.image-container {
+				width: 150px;
+				height: 50px;
+				text-align: center;
+			}
+
+			.image-container img {
+				height: 100%;
+				background-color: #fff;
+			}
+
+			input[type=submit] {
+				background-color: #04AA6D;
+				color: white;
+				padding: 12px 20px;
+				border: none;
+				border-radius: 4px;
+				cursor: pointer;
+			}
+
+			input[type=submit]:hover {
+				background-color: #45a049;
+			}
+
+			.container {
+				border-radius: 5px;
+				background-color: #f2f2f2;
+				padding: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-light">
+			<a class="navbar-brand image-container logo" href="#"><img alt="logo" class="logo-img" src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-clean-farm-agriculture-logo-design-concept-png-image_3554517.jpg">Agri farm</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="#about">About</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#features">Features</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#contact">Contact</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/predict">Predict Prices</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/historical_data">Historical Data</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div class="jumbotron text-center d-flex align-items-center">
+			<div class="container animate_animated animate_fadeIn">
+				<h3>Contact Form</h3>
+
+			</div>
+		</div>
+
+		<div class="container">
+			<form action="/action_page.php">
+				<label for="fname">First Name</label>
+				<input type="text" id="fname" name="firstname" placeholder="Your name..">
+
+				<label for="lname">Last Name</label>
+				<input type="text" id="lname" name="lastname" placeholder="Your last name..">
+
+				<label for="country">Country</label>
+				<select id="country" name="country">
+					<option value="australia">India</option>
+					<option value="canada">Canada</option>
+					<option value="usa">USA</option>
+				</select>
+
+				<label for="subject">Subject</label>
+				<textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+
+				<input type="submit" value="Submit">
+			</form>
+		</div>
+
+
+		<!-- Contact Section -->
+		<div id="contact" class="info-section text-center animate_animated animate_fadeInUp">
+			<div class="container">
+				<h2>Contact Us</h2>
+				<p>Have questions or need help? Reach out to
+					<a class="btn btn-primary" href="/contactus">here!</a>
+				</p>
+				<p>Email: lalitpobbal231@gmail.com</p>
+				<p>Phone: +9579131127</p>
+			</div>
+		</div>
+
+		<!-- Footer -->
+		<footer class="text-center py-4">
+			<p>&copy; 2024 Crop Price Prediction. All rights reserved.</p>
+		</footer>
+
+	</body>
+</html>

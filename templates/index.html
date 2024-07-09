@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict Crop Prices</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <style>
+        body {
+            background: url('https://images.pexels.com/photos/1646178/pexels-photo-1646178.jpeg?cs=srgb&dl=pexels-tombrand-1646178.jpg&fm=jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Lora', serif;
+        }
+        .navbar {
+            background-color: #4CAF50;
+        }
+        .navbar-brand, .nav-link {
+            color: white !important;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #6b8e23;
+            border-color: #6b8e23;
+        }
+        .btn-primary:hover {
+            background-color: #556b2f;
+            border-color: #556b2f;
+        }
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#"><i class="fas fa-seedling"></i> Agri Farm</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/historical_data">Historical Data</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="form-container animate__animated animate__fadeInUp">
+            <h2>Predict Crop Prices</h2>
+            <form id="predict-form" action="/predict" method="post">
+                <div class="form-group">
+                    <label for="commodity_name">Commodity Name</label>
+                    <select class="form-control" id="commodity_name" name="commodity_name">
+                        {% for commodity in commodity_options %}
+                            <option value="{{ commodity }}">{{ commodity }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <select class="form-control" id="state" name="state">
+                        {% for state in state_options %}
+                            <option value="{{ state }}">{{ state }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="district">District</label>
+                    <select class="form-control" id="district" name="district">
+                        {% for district in district_options %}
+                            <option value="{{ district }}">{{ district }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="market">Market</label>
+                    <select class="form-control" id="market" name="market">
+                        {% for market in market_options %}
+                            <option value="{{ market }}">{{ market }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" class="form-control" id="date" name="date">
+                </div>
+                <div class="form-group">
+                    <label for="farmer-location">Enter your location</label>
+                    <input type="text" class="form-control" id="farmer-location" placeholder="Enter your address">
+                </div>
+                <button type="button" class="btn btn-primary" onclick="calculateDistance()">Calculate Distance</button>
+                <button type="submit" class="btn btn-primary mt-3">Predict</button>
+            </form>
+            <div id="map"></div>
+            <div id="distance" class="mt-3"></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([20.5937, 78.9629], 5); // Centered on India
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var farmerLocation;
+        var marketLocation;
+
+        // Function to calculate distance
+        function calculateDistance() {
+            var address = document.getElementById('farmer-location').value;
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${address}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        var lat = data[0].lat;
+                        var lon = data[0].lon;
+                        farmerLocation = L.latLng(lat, lon);
+
+                        // Geocode market location based on selection
+                        var market = document.getElementById('market').value;
+                        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${market}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.length > 0) {
+                                    var marketLat = data[0].lat;
+                                    var marketLon = data[0].lon;
+                                    marketLocation = L.latLng(marketLat, marketLon);
+
+                                    // Add markers to map
+                                    L.marker(farmerLocation).addTo(map)
+                                        .bindPopup('Farmer Location')
+                                        .openPopup();
+                                    L.marker(marketLocation).addTo(map)
+                                        .bindPopup('Market Location')
+                                        .openPopup();
+
+                                    // Fit map to markers
+                                    map.fitBounds(L.latLngBounds([farmerLocation, marketLocation]));
+
+                                    // Calculate route and distance using Leaflet Routing Machine
+                                    L.Routing.control({
+                                        waypoints: [
+                                            farmerLocation,
+                                            marketLocation
+                                        ]
+                                    }).on('routesfound', function(e) {
+                                        var routes = e.routes;
+                                        var summary = routes[0].summary;
+                                        document.getElementById('distance').innerText = 'Distance: ' + (summary.totalDistance / 1000).toFixed(2) + ' km';
+                                    }).addTo(map);
+                                } else {
+                                    alert('Market location not found');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error fetching market location:', error);
+                                alert('Error fetching market location. Please try again.');
+                            });
+                    } else {
+                        alert('Farmer location not found');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching geocode data:', error);
+                    alert('Error fetching location data. Please try again.');
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Historical Data</title>
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+		<style>
+			.chart-container {
+				max-width: 900px;
+				margin: auto;
+				padding: 2rem;
+			}
+			body {
+				background-size: cover;
+				font-family: 'Lora', serif;
+				background-color: rgb(229, 236, 229);
+			}
+			.commodity-button {
+				margin-right: 10px;
+				margin-bottom: 10px;
+			}
+			div#about {
+				background-color: lightgreen;
+			}
+			div#contact {
+				background-color: lightgreen;
+			}
+			nav.navbar {
+				background-color: #fff;
+				text-shadow: 0 0 black;
+			}
+			.image-container {
+				width: 150px;
+				height: 50px;
+				text-align: center;
+			}
+
+			.image-container img {
+				height: 100%;
+				background-color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Navbar -->
+		<nav class="navbar navbar-expand-lg navbar-light">
+			<a class="navbar-brand image-container logo" href="#"><img alt="logo" class="logo-img" src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-clean-farm-agriculture-logo-design-concept-png-image_3554517.jpg">Agri farm</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="#about">About</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#features">Features</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#contact">Contact</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/predict">Predict Prices</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/historical_data">Historical Data</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container mt-5">
+			<div class="chart-container animate_animated animate_fadeInUp" role="region" aria-label="Historical Crop Prices">
+				<h2>Historical Crop Prices</h2>
+
+				<!-- Buttons for each commodity_name -->
+				<div class="btn-group" role="group">
+					{% for commodity in commodity_names %}
+						<a href="/historical_data/{{ commodity }}" class="btn btn-primary commodity-button">{{ commodity }}</a>
+					{% endfor %}
+				</div>
+
+				<!-- Graph or table will be rendered here based on selection -->
+				{{ graph_html|safe }}
+			</div>
+		</div>
+
+		<!-- Contact Section -->
+		<div id="contact" class="info-section text-center animate_animated animate_fadeInUp">
+			<div class="container">
+				<h2>Contact Us</h2>
+				<p>Have questions or need help? Reach out to
+					<a class="btn btn-primary" href="/contactus">here!</a>
+				</p>
+				<p>Email: lalitpobbal231@gmail.com</p>
+				<p>Phone: +9579131127</p>
+			</div>
+		</div>
+
+		<!-- Footer -->
+		<footer class="text-center py-4">
+			<p>&copy; 2024 Crop Price Prediction. All rights reserved.</p>
+		</footer>
+
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	</body>
+</html>

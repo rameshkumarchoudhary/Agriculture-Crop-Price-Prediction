@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Welcome to Crop Price Prediction</title>
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+		<style>
+			.jumbotron {
+				background: url('https://www.minneapolisfed.org/-/media/assets/articles/2022/farm-incomes-held-up-through-harvest-season/farm-incomes-held-up-through-harvest-season-key.jpg') no-repeat center center;
+				background-size: cover;
+				color: white;
+				height: 100vh;
+				margin-bottom: 0;
+			}
+			.info-section-features {
+				background: url('https://media.licdn.com/dms/image/C4D12AQEEHTimkZPjBg/article-cover_image-shrink_600_2000/0/1520125859768?e=2147483647&v=beta&t=aIdSQ9QwWtM8UhVeqzvIqDLuvqrAWg1mhk6oKIirhi8') no-repeat center center;
+				background-size: cover;
+				color: white;
+			}
+			.jumbotron h1 {
+				font-size: 3.5rem;
+			}
+			.info-section {
+				padding: 60px 0;
+			}
+			div#about {
+				background-color: lightgreen;
+			}
+			div#contact {
+				background-color: lightgreen;
+			}
+			nav.navbar {
+				background-color: #fff;
+				text-shadow: 0 0 black;
+			}
+			.image-container {
+				width: 150px;
+				height: 50px;
+				text-align: center;
+			}
+
+			.image-container img {
+				height: 100%;
+				background-color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Navbar -->
+		<nav class="navbar navbar-expand-lg navbar-light">
+			<a class="navbar-brand image-container logo" href="#"><img alt="logo" class="logo-img" src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-clean-farm-agriculture-logo-design-concept-png-image_3554517.jpg">Agri farm</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="#about">About</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#features">Features</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#contact">Contact</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/predict">Predict Prices</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/historical_data">Historical Data</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<!-- Jumbotron -->
+		<div class="jumbotron text-center d-flex align-items-center">
+			<div class="container animate_animated animate_fadeIn">
+				<h1 class="display-4">Welcome to Agri farm</h1>
+				<p class="lead">Accurate and timely predictions for better farming decisions.</p>
+				<a class="btn btn-primary btn-lg" href="/predict" role="button">Start Predicting</a>
+				<form method="POST" action="/" class="mt-4">
+					<input type="text" name="city" placeholder="Enter City" class="form-control mb-2">
+					<button type="submit" class="btn btn-primary">Check Weather</button>
+				</form>
+				<h5 class="mt-4">Current Weather in
+					{{ city }}:
+					{{ weather_description or 'Not Available' }}, Temperature:
+					{{ temperature or 'N/A' }}°C</h5>
+			</div>
+		</div>
+
+		<!-- About Section -->
+		<div id="about" class="info-section text-center animate_animated animate_fadeInUp">
+			<div class="container">
+				<h2>About Us</h2>
+				<p>Welcome to Crop Price Prediction, your trusted partner in navigating the agricultural market. Our mission is to empower farmers with accurate crop price predictions and valuable insights, helping them make informed decisions to maximize their profits.</p>
+				<p>We leverage advanced machine learning algorithms and historical data to provide reliable price forecasts for a wide range of crops. Our user-friendly platform is designed to be accessible and beneficial to farmers of all scales, ensuring they have the tools they need to succeed in today's competitive market.</p>
+			</div>
+		</div>
+
+		<!-- Features Section -->
+		<div id="features" class="info-section info-section-features text-center animate_animated animate_fadeInUp">
+			<div class="container">
+				<h2>Features</h2>
+				<br>
+				<div class="row">
+					<div class="col-md-3">
+						<h3>Price prediction</h3>
+						<p>Accurate and timely crop price prediction</p>
+					</div>
+					<div class="col-md-3">
+						<h3>Weather Integration</h3>
+						<p>Get real-time weather updates to plan your farming activities better.</p>
+					</div>
+					<div class="col-md-3">
+						<h3>Distance</h3>
+						<p>Calculate distance from current location to market.</p>
+					</div>
+					<div class="col-md-3">
+						<h3>Historical Data</h3>
+						<p>Access historical price trends to understand market dynamics.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Contact Section -->
+		<div id="contact" class="info-section text-center animate_animated animate_fadeInUp">
+			<div class="container">
+				<h2>Contact Us</h2>
+				<p>Have questions or need help? Reach out to
+					<a class="btn btn-primary" href="/contactus">here!</a>
+				</p>
+				<p>Email: lalitpobbal231@gmail.com</p>
+				<p>Phone: +9579131127</p>
+			</div>
+		</div>
+
+		<!-- Footer -->
+		<footer class="text-center py-4">
+			<p>&copy; 2024 Crop Price Prediction. All rights reserved.</p>
+		</footer>
+
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	</body>
+</html>
